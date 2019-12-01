@@ -16,7 +16,7 @@ def saveSettings(settings) :
     print("settings saved")
 
 def clicked_MixerButton(widget, settings) :
-    cmd = settings[0]["scarlettConf"]["mixer"]
+    cmd = settings[0]["scarlettConf"]["mixer"].split()
     try :
         subprocess.Popen(cmd)
     except :
