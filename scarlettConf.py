@@ -110,6 +110,11 @@ def app_activate(app) :
         conf = " " 
     else :
         conf = parser["scarlettConf"]["config"]
+        try :
+            subprocess.run([alsactl, "--file", conf, "restore"])
+        except :
+            print("could not load config")
+
 
     # save settings
     settings = (parser, settingsFile)
