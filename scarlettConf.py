@@ -172,7 +172,7 @@ def app_activate(app) :
     # start scarlettmixer if startMixer is set to true
     if startMixer :
         print("run", mixer)
-        subprocess.Popen(mixer)
+        subprocess.Popen(mixer.split())
 
 def main() :
     app = Gtk.Application.new("org.scarlettconf.app",0)
