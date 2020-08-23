@@ -5,7 +5,7 @@ ScarlettConf is only for loading and saving settings. To adjust the settings use
 
 To run scarlettConf install `python3` and `PyGObject` and do :
 
-    cp scarlettConf.py $HOME/.local/bin/scarlettConf
+    curl https://raw.githubusercontent.com/zecktos/scarlettConf/master/scarlettConf.py --output $HOME/.local/bin/scarlettConf
     chmod a+x $HOME/.local/bin/scarlettConf
 
 
