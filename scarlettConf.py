@@ -9,6 +9,7 @@ import subprocess
 import os
 import configparser
 
+MIXER_PROCESS = None
 
 def saveSettings(settings) :
     with open(settings[1], "w") as configfile :
@@ -16,11 +17,20 @@ def saveSettings(settings) :
     print("settings saved")
 
 def clicked_MixerButton(widget, settings) :
-    cmd = settings[0]["scarlettConf"]["mixer"].split()
-    try :
-        subprocess.Popen(cmd)
-    except :
-        print("could not start mixer")
+    def startMixer() :
+        global MIXER_PROCESS
+        cmd = settings[0]["scarlettConf"]["mixer"].split()
+        try :
+            MIXER_PROCESS = subprocess.Popen(cmd)
+        except :
+            print("could not start mixer")
+    if MIXER_PROCESS is None :
+        startMixer()
+    else :
+        if MIXER_PROCESS.poll() is None :
+            MIXER_PROCESS.terminate()
+        else :
+            startMixer()
 
 def setFile_FileButton(widget, settings, FileSaver) :
     conf = widget.get_filename()
@@ -172,7 +182,8 @@ def app_activate(app) :
     # start scarlettmixer if startMixer is set to true
     if startMixer :
         print("run", mixer)
-        subprocess.Popen(mixer.split())
+        global MIXER_PROCESS
+        MIXER_PROCESS = subprocess.Popen(mixer.split())
 
 def main() :
     app = Gtk.Application.new("org.scarlettconf.app",0)
@@ -329,7 +340,7 @@ gui = """
         </child>
         <child>
           <object class="GtkButton" id="MixerButton">
-            <property name="label" translatable="yes">open Mixer</property>
+            <property name="label" translatable="yes">Mixer</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
