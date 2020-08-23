@@ -185,9 +185,17 @@ def app_activate(app) :
         global MIXER_PROCESS
         MIXER_PROCESS = subprocess.Popen(mixer.split())
 
+def app_shutdown(app) :
+    global MIXER_PROCESS
+    if MIXER_PROCESS is not None :
+        if MIXER_PROCESS.poll() is None :
+            MIXER_PROCESS.terminate()
+
+
 def main() :
     app = Gtk.Application.new("org.scarlettconf.app",0)
     app.connect("activate", app_activate)
+    app.connect("shutdown", app_shutdown)
     app.run()
 
 gui = """
